@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LICENSE" />
+    <None Remove="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adeptik.AlgorithmExecutorContracts\Adeptik.AlgorithmExecutorContracts.csproj" />
+    <ProjectReference Include="..\Adeptik.AlgorithmRuntime\Adeptik.AlgorithmRuntime.csproj" />
+  </ItemGroup>
+
+</Project>

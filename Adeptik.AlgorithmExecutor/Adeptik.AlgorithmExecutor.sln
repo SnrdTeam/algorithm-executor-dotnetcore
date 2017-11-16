@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adeptik.AlgorithmRuntime", "Adeptik.AlgorithmRuntime\Adeptik.AlgorithmRuntime.csproj", "{D9EF476B-3DB5-45B4-B6E3-5406203413BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adeptik.AlgorithmExecutor", "Adeptik.AlgorithmExecutor\Adeptik.AlgorithmExecutor.csproj", "{6E21FD95-161C-4308-BE00-99A2B26F407F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adeptik.AlgorithmExecutorContracts", "Adeptik.AlgorithmExecutorContracts\Adeptik.AlgorithmExecutorContracts.csproj", "{FC44B782-9CD5-4CB4-B44C-920873246213}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9EF476B-3DB5-45B4-B6E3-5406203413BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9EF476B-3DB5-45B4-B6E3-5406203413BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9EF476B-3DB5-45B4-B6E3-5406203413BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9EF476B-3DB5-45B4-B6E3-5406203413BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E21FD95-161C-4308-BE00-99A2B26F407F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E21FD95-161C-4308-BE00-99A2B26F407F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E21FD95-161C-4308-BE00-99A2B26F407F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E21FD95-161C-4308-BE00-99A2B26F407F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC44B782-9CD5-4CB4-B44C-920873246213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC44B782-9CD5-4CB4-B44C-920873246213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC44B782-9CD5-4CB4-B44C-920873246213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC44B782-9CD5-4CB4-B44C-920873246213}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {616D7961-48D1-4357-8922-8AFAF2E394E3}
+	EndGlobalSection
+EndGlobal

@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/Adeptik.AlgorithmExecutor/.vs/Adeptik.AlgorithmExecutor/v15
+[Bb]in/
+[Oo]bj/
+/Adeptik.AlgorithmExecutor/.vs/Adeptik/v15

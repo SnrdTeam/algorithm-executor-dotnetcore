@@ -12,17 +12,17 @@ namespace Adeptik.AlgorithmExecutor
     /// </summary>
     public class SolutionManagerHttpImpl : ISolutionManager
     {
-        private readonly string _url;
+        private readonly string _baseUrl;
         private readonly string _authorizationHeader;
 
         /// <summary>
         /// Создание экземпляра класса <seealso cref="SolutionManagerHttpImpl"/>
         /// </summary>
-        /// <param name="url">Адрес сервера хранения решения</param>
+        /// <param name="baseUrl">Адрес сервера хранения решения</param>
         /// <param name="authorizationHeader">Значение заголовка HTTP-запроса Authorization</param>
-        public SolutionManagerHttpImpl(string url, string authorizationHeader)
+        public SolutionManagerHttpImpl(string baseUrl, string authorizationHeader)
         {
-            _url = url;
+            _baseUrl = baseUrl;
             _authorizationHeader = authorizationHeader;
         }
 
@@ -30,30 +30,34 @@ namespace Adeptik.AlgorithmExecutor
         /// Сохранение решения задачи
         /// </summary>
         /// <param name="solutionStatus">Статус решения</param>
-        /// <param name="outputStreamHandler">Объект для осуществления сохранения решения</param>
+        /// <param name="handleSolutionStream">Обработчик потока решения</param>
         /// <exception cref="HttpException">Если при сохранении решения сервер вернет код отличный от 200</exception>
-        public void Post(SolutionStatus solutionStatus, IOutputStreamHandler outputStreamHandler)
+        public void Post(SolutionStatus solutionStatus, Action<Stream> handleSolutionStream)
         {
             using (var client = new HttpClient())
             {
                 if(!string.IsNullOrEmpty(_authorizationHeader))
                     client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", _authorizationHeader);
-                //client.BaseAddress = new Uri(_baseUrl);
-                var stream = new MemoryStream();
-                outputStreamHandler.Handle(stream);
-                using (var multipartFormDataContent = new MultipartFormDataContent())
+                client.BaseAddress = new Uri(_baseUrl);
+                using (var stream = new MemoryStream())
                 {
-                    multipartFormDataContent.Add(new StringContent(solutionStatus.ToString()), '"' + "SolutionStatus" + '"');
-                    multipartFormDataContent.Add( new StreamContent(stream), '"' + "Solution" + '"', '"' + $"solution" + '"');
-                    var res = client.PostAsync(_url, multipartFormDataContent).GetAwaiter().GetResult();
-
-                    if (!res.IsSuccessStatusCode)
+                    handleSolutionStream(stream);
+                    //stream.Get
+                    using (var multipartFormDataContent = new MultipartFormDataContent())
                     {
-                        throw new HttpException($"Invalid status code for sending request to {_url} with authorization{_authorizationHeader}",
-                            (int)res.StatusCode, res.ReasonPhrase, res.Content.ReadAsStringAsync().GetAwaiter().GetResult(), res.Headers.ToDictionary(x => x.Key, x => x.Value));
-                    }
+                        multipartFormDataContent.Add(new StringContent(solutionStatus.ToString()), '"' + "SolutionStatus" + '"');
+                        multipartFormDataContent.Add(new ByteArrayContent(stream.ToArray()), '"' + "Solution" + '"', '"' + $"solution" + '"');
+                        var res = client.PutAsync("api/problem/solution", multipartFormDataContent).GetAwaiter().GetResult();
 
+                        if (!res.IsSuccessStatusCode)
+                        {
+                            throw new HttpException($"Invalid status code for sending request to {_baseUrl} with authorization{_authorizationHeader}",
+                                (int)res.StatusCode, res.ReasonPhrase, res.Content.ReadAsStringAsync().GetAwaiter().GetResult(), res.Headers.ToDictionary(x => x.Key, x => x.Value));
+                        }
+
+                    }
                 }
+                
 
             }
         }

@@ -7,7 +7,7 @@ namespace Adeptik.AlgorithmExecutorContracts
     /// </summary>
     public class HttpServiceSolutionStoreSettings: SolutionStoreSettings
     {
-        public const string Type = "FileSolutionStore";
+        public const string Type = "HttpServiceSolutionStore";
 
         public HttpServiceSolutionStoreSettings()
         {

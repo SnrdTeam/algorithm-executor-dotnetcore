@@ -1,4 +1,7 @@
-﻿namespace Adeptik.AlgorithmRuntime
+﻿using System;
+using System.IO;
+
+namespace Adeptik.AlgorithmRuntime
 {
     /// <summary>
     /// Интерфейс для публикации решения
@@ -9,7 +12,7 @@
         /// Сохранение решения задачи
         /// </summary>
         /// <param name="solutionStatus">Статус решения</param>
-        /// <param name="outputStreamHandler">Объект для осуществления сохранения решения</param>
-        void Post(SolutionStatus solutionStatus, IOutputStreamHandler outputStreamHandler);
+        /// <param name="handleSolutionStream">Обработчик потока решения</param>
+        void Post(SolutionStatus solutionStatus, Action<Stream> handleSolutionStream);
     }
 }

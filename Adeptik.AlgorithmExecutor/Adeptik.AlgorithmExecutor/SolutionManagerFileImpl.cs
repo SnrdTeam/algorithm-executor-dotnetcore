@@ -25,7 +25,12 @@ namespace Adeptik.AlgorithmExecutor
             _solutionsDir = solutionsDir;
         }
 
-        public void Post(SolutionStatus solutionStatus, IOutputStreamHandler outputStreamHandler)
+        /// <summary>
+        /// Сохранение решения задачи
+        /// </summary>
+        /// <param name="solutionStatus">Статус решения</param>
+        /// <param name="handleSolutionStream">Обработчик потока решения</param>
+        public void Post(SolutionStatus solutionStatus, Action<Stream> handleSolutionStream)
         {
             var solutionFileFormat = $"{solutionStatus}_{DateTime.UtcNow.ToString("yyyy-MM-dd_HH-mm-ss")}";
 
@@ -35,8 +40,10 @@ namespace Adeptik.AlgorithmExecutor
             {
                 fileName = Path.Combine(_solutionsDir, solutionFileFormat + (number > 0 ? $".{++number}" : ""));
             } while (File.Exists(fileName));
-
-            outputStreamHandler.Handle(new FileStream(fileName, FileMode.Create));
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                handleSolutionStream(fileStream);
+            }
         }
     }
 }

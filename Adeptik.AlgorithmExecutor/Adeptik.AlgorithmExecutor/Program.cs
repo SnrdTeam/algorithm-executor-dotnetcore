@@ -12,7 +12,7 @@ namespace Adeptik.AlgorithmExecutor
     {
         const string ExecutorName = "DotNetCoreExecutor";
         static readonly string[] SupportedVersions = new string[] { "2.0.3" };
-        const string EntryPointFileName = "entryPoint.txt";
+        const string EntryPointFileName = "entryPoint";
         const string RuntimeVersionPrefix = ".netcore";
         const string RuntimesFolderName = "runtimes";
         const string LibsFolderName = "libs";

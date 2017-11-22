@@ -17,19 +17,60 @@ namespace Adeptik.AlgorithmExecutor
         const string RuntimesFolderName = "runtimes";
         const string LibsFolderName = "libs";
 
-        static void Main(string[] args)
+        /// <summary>
+        /// Коды результата выполнения исполнителя
+        /// </summary>
+        private enum ReturnCode
         {
+            /// <summary>
+            /// Команда выполнена успешно
+            /// </summary>
+            Success = 0,
 
-            if (args.Length == 1 && args[0] == "--hepp")
-                PrintHelp();
-            else if (args.Length == 1 && args[0] == "--about")
-                PrintAbout();
-            else if (args.Length == 2 && args[0] == "--check")
-                CheckAlgorithm(args[1]);
-            else if (args.Length == 2 && args[0] == "--start")
-                StartAlgorithm(args[1]);
-            else
-                Console.WriteLine($"Invalid command line args: {string.Join(",", args)}. For help enter --help");
+            /// <summary>
+            /// Некорректные аргументы
+            /// </summary>
+            InvalidArgs = 11,
+
+            /// <summary>
+            /// Ошибка выполнения
+            /// </summary>
+            Error = 21
+        }
+
+        static int Main(string[] args)
+        {
+            var debug = false;
+            try
+            {
+                if (args.Length == 1 && args[0] == "--hepp")
+                    PrintHelp();
+                else if (args.Length == 1 && args[0] == "--about")
+                    PrintAbout();
+                else if (args.Length == 2 && args[0] == "--check")
+                    CheckAlgorithm(args[1]);
+                else if (args.Length == 2 && args[0] == "--start" ||
+                    args.Length == 3 && args[0] == "--start" && args[2] == "--debug")
+                {
+                    debug = args.Length == 3;
+                    StartAlgorithm(args[1]);
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid command line args: {string.Join(",", args)}. For help enter --help");
+                    return (int)ReturnCode.InvalidArgs;
+                }
+                return (int)ReturnCode.Success;
+            }
+            catch(Exception e)
+            {
+                if(debug)
+                    Console.WriteLine($"Error occured: {e}");
+                else
+                    Console.WriteLine($"Error occured: {e.Message}");
+                return (int)ReturnCode.Error;
+            }
+            
         }
 
 
@@ -68,9 +109,10 @@ namespace Adeptik.AlgorithmExecutor
         /// <param name="executionSettingsPath">Путь json файлу настроеек запуска алгоритма
         /// <seealso cref="ExecutionSettings"/>
         /// </param>
+        /// <param name="debug">Режим отладки</param>
         /// <exception cref="ArgumentException"/>
         /// <exception cref="ArgumentNullException"/>
-        private static void StartAlgorithm(string executionSettingsPath)
+        private static void StartAlgorithm(string executionSettingsPath, bool debug = false)
         {
             if (executionSettingsPath == null)
                 throw new ArgumentNullException(nameof(executionSettingsPath));
@@ -82,6 +124,7 @@ namespace Adeptik.AlgorithmExecutor
             jsonSettings.Converters.Add(new SolutionStoreSettingsJsonConverter());
             var executionSettings = JsonConvert.DeserializeObject<ExecutionSettings>(File.ReadAllText(executionSettingsPath), jsonSettings);
             PrepareAlgorithmForRun(executionSettings).Invoke(null, new object[] { new ExecutionContext(executionSettings) });
+
         }
 
         private static MethodInfo PrepareAlgorithmForRun(ExecutionSettings executionSettings)
@@ -142,7 +185,6 @@ namespace Adeptik.AlgorithmExecutor
             var lastValidVersion = algorithmRuntimeVersions.Where(x => SupportedVersions.Contains(x)).OrderByDescending(x => x).FirstOrDefault();
             if(lastValidVersion == null)
                 throw new ArgumentException($"Runtime versions: {string.Join(", ", algorithmRuntimeVersions)} does not match supported runtime versions: {string.Join(", ", SupportedVersions)}");
-
             return GetAlgorithmEntryPoint(Path.Combine(baseAlgorithmPath, RuntimesFolderName, RuntimeVersionPrefix + lastValidVersion));
         }
 
@@ -241,7 +283,7 @@ namespace Adeptik.AlgorithmExecutor
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                throw new NotImplementedException(); // won't be called because CanWrite returns false
+                throw new NotImplementedException(); // Данный метод не будет вызываться, т.к установлен CanWrite в false
             }
         }
     }

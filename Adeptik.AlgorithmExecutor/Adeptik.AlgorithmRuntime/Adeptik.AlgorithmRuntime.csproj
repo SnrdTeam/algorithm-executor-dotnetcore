@@ -5,6 +5,8 @@
     <VersionPrefix>1.0.0</VersionPrefix>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Adeptik-PublicKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <PublicSign>True</PublicSign>
   </PropertyGroup>
 
 </Project>

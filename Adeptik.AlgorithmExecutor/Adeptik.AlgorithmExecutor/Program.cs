@@ -43,7 +43,7 @@ namespace Adeptik.AlgorithmExecutor
             var debug = false;
             try
             {
-                if (args.Length == 1 && args[0] == "--hepp")
+                if (args.Length == 1 && args[0] == "--help")
                     PrintHelp();
                 else if (args.Length == 1 && args[0] == "--about")
                     PrintAbout();

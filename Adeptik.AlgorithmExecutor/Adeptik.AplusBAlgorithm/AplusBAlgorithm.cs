@@ -39,7 +39,7 @@ namespace Adeptik.AplusBAlgorithm
                         });
                         break;
                     }
-                    catch(Exception e)
+                    catch(RetryException e)
                     {
                         Console.WriteLine($"Exception thrown: {e.Message}");
                         Thread.Sleep(RetryPostSolutionMilliSeconds);

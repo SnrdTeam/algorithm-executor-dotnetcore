@@ -7,7 +7,7 @@ namespace Adeptik.AlgorithmExecutor
     /// <summary>
     /// Реализация файлового хранения решения задачи
     /// </summary>
-    public class SolutionManagerFileImpl : ISolutionManager
+    internal class SolutionManagerFileImpl : ISolutionManager
     {
         private readonly string _solutionsDir;
 

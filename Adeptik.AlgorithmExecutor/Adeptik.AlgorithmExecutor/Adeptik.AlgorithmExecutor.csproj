@@ -12,12 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Adeptik.AlgorithmRuntime" Version="1.0.0-dev201711234" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Adeptik.AlgorithmExecutorContracts\Adeptik.AlgorithmExecutorContracts.csproj" />
-    <ProjectReference Include="..\Adeptik.AlgorithmRuntime\Adeptik.AlgorithmRuntime.csproj" />
   </ItemGroup>
 
 </Project>

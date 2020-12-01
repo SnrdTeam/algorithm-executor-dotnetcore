@@ -10,12 +10,12 @@ namespace Adeptik.AlgorithmExecutor
 {
     class Program
     {
-        const string ExecutorName = "DotNetCoreExecutor";
-        static readonly string[] SupportedVersions = new string[] { "2.0.3" };
-        const string EntryPointFileName = "entryPoint";
-        const string RuntimeVersionPrefix = ".netcore";
-        const string RuntimesFolderName = "runtimes";
-        const string LibsFolderName = "libs";
+        private const string ExecutorName = "DotNetCoreExecutor";
+        private static readonly string[] SupportedVersions = { "2.0.3", "3.1" };
+        private const string EntryPointFileName = "entryPoint";
+        private const string RuntimeVersionPrefix = ".netcore";
+        private const string RuntimesFolderName = "runtimes";
+        private const string LibsFolderName = "libs";
 
         /// <summary>
         /// Коды результата выполнения исполнителя
@@ -64,10 +64,7 @@ namespace Adeptik.AlgorithmExecutor
             }
             catch(Exception e)
             {
-                if(debug)
-                    Console.WriteLine($"Error occured: {e}");
-                else
-                    Console.WriteLine($"Error occured: {e.Message}");
+                Console.WriteLine(debug ? $"Error occurred: {e}" : $"Error occurred: {e.Message}");
                 return (int)ReturnCode.Error;
             }
             
@@ -82,7 +79,7 @@ namespace Adeptik.AlgorithmExecutor
         {
             var about = new AboutExecutor
             {
-                Version = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version,
+                Version = typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version,
                 Name = ExecutorName,
                 SupportedRuntimes = SupportedVersions.Select(x => RuntimeVersionPrefix + x).ToArray()
             };
@@ -106,7 +103,7 @@ namespace Adeptik.AlgorithmExecutor
         /// <summary>
         /// Запуск алгоритма
         /// </summary>
-        /// <param name="executionSettingsPath">Путь json файлу настроеек запуска алгоритма
+        /// <param name="executionSettingsPath">Путь json файлу настроек запуска алгоритма
         /// <seealso cref="ExecutionSettings"/>
         /// </param>
         /// <param name="debug">Режим отладки</param>
@@ -142,7 +139,7 @@ namespace Adeptik.AlgorithmExecutor
 
 
         /// <summary>
-        /// Вывод результата проверки корректности опеределения алгоритма
+        /// Вывод результата проверки корректности определения алгоритма
         /// <seealso cref="AlgorithmCheckResult"/>
         /// </summary>
         /// <param name="algorithmPath">Путь к разархивированной папке определения алгоритма</param>
@@ -156,7 +153,11 @@ namespace Adeptik.AlgorithmExecutor
                 ValidateAlgorithm(algorithmPath);
                 valid = true;
             }
-            catch(Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
+
             var check = new AlgorithmCheckResult { ValidAlgorithm = valid };
             Console.WriteLine(JsonConvert.SerializeObject(check));
         }
@@ -276,10 +277,7 @@ namespace Adeptik.AlgorithmExecutor
                 }
             }
 
-            public override bool CanWrite
-            {
-                get { return false; }
-            }
+            public override bool CanWrite => false;
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
